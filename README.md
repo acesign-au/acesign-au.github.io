@@ -7,3 +7,5 @@ Live at **https://acesign-au.github.io/review/**
 - `/` redirects to `review/`.
 
 The old address `hannahkuokuo.github.io/ace-sign-website/review/` redirects here, so printed QR codes keep working.
+
+Published with GitHub Pages from the `main` branch (root).

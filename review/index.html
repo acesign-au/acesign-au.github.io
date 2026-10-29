@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071624">
+<title>ACE SIGN · How did we do?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{--cover:#071624;--bg:#0A1B29;--panel:#12293B;--line2:#35505F;--muted:#9FB1C1;--text:#DCE5EC;--orange:#F5662C;--display:Archivo,Inter,"Arial Narrow",sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--cover);color:#fff}
+body{font:16px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button,input{font:inherit}
+input::placeholder{color:#7F93A5}
+input:focus{outline:3px solid rgba(245,102,44,.45);outline-offset:0}
+a:focus-visible,button:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.hidden{display:none!important}
+.logo{width:64px;height:64px;object-fit:contain;background:#fff;border-radius:6px;padding:5px;display:block}
+h1,h2{margin:0;font-family:var(--display);font-stretch:66%;font-weight:900;line-height:.88;text-transform:uppercase;letter-spacing:-.5px}
+h1 em,h2 em{font-style:normal;color:var(--orange)}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:62px;padding:14px 16px;border:0;border-radius:4px;background:var(--orange);color:var(--bg);text-decoration:none;cursor:pointer;font-family:var(--display);font-stretch:85%;font-weight:900;font-size:20px;letter-spacing:2px;text-transform:uppercase}
+
+/* Cover */
+.cover{position:relative;min-height:100vh;min-height:100dvh;overflow:hidden;display:flex;flex-direction:column;padding:28px 24px calc(24px + env(safe-area-inset-bottom))}
+.cover-photo{position:absolute;left:0;right:0;bottom:0;height:56%}
+.cover-photo img{width:100%;height:100%;object-fit:cover;object-position:60% 40%;display:block}
+.cover-fade{position:absolute;inset:0;background:linear-gradient(180deg,var(--cover) 0%,rgba(7,22,36,.1) 30%,rgba(7,22,36,.25) 62%,var(--cover) 96%)}
+.copy{position:relative;display:flex;flex-direction:column;gap:22px;max-width:520px}
+.rule{width:64px;height:4px;background:var(--orange)}
+.cover h1{font-size:76px}
+.copy p{margin:0;font-size:17px;line-height:1.45;color:var(--text);max-width:340px}
+.cta{position:relative;margin-top:auto;display:flex;flex-direction:column;gap:18px}
+.tagline{display:flex;align-items:center;justify-content:center;gap:12px;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;white-space:nowrap;color:var(--text)}
+.tagline:before{content:"";width:36px;height:3px;background:var(--orange)}
+
+/* Details (optional brand / company) */
+.details{min-height:100vh;min-height:100dvh;background:var(--bg);display:flex;flex-direction:column}
+.d-head{padding:18px 20px 0}
+.d-inner{max-width:560px;margin:0 auto;width:100%}
+.d-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .logo{width:40px;height:40px;padding:3px}
+.wordmark{font-family:var(--display);font-stretch:110%;font-weight:900;font-size:14px;letter-spacing:2px}
+.d-body{flex:1 1 auto;padding:36px 20px 24px}
+.d-form{display:flex;flex-direction:column;gap:26px}
+.tag{align-self:flex-start;font-family:var(--display);font-stretch:85%;font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border:1.5px solid var(--line2);color:#C8D3DC}
+.details h2{font-size:52px}
+.intro{display:flex;flex-direction:column;gap:12px}
+.intro p{margin:0;font-size:15px;color:var(--muted)}
+.field{display:flex;flex-direction:column;gap:8px}
+.label{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.input{width:100%;min-height:60px;border:0;border-bottom:3px solid var(--line2);border-radius:0;background:var(--panel);color:#fff;font-size:18px;padding:14px 16px}
+.input.filled{border-bottom-color:var(--orange)}
+.d-bar{position:sticky;bottom:0;background:rgba(10,27,41,.96);border-top:1px solid #22394B;padding:14px 20px calc(16px + env(safe-area-inset-bottom))}
+.d-bar .d-inner{display:flex;gap:8px}
+.back{width:62px;height:62px;flex:0 0 auto;border:1.5px solid var(--line2);border-radius:4px;background:transparent;color:#fff;display:grid;place-items:center;cursor:pointer}
+.note{margin:0;font-size:13px;color:var(--muted)}
+
+@media (min-width:600px){
+.d-head{padding:22px 40px 0}
+.d-body{padding:56px 40px 32px}
+.d-bar{padding:16px 40px 22px}
+.details h2{font-size:64px}
+}
+@media (min-width:960px){
+.cover{justify-content:center;padding:72px 80px}
+.cover-photo{left:auto;top:0;height:100%;width:56%}
+.cover-fade{background:linear-gradient(90deg,var(--cover) 0%,rgba(7,22,36,.55) 14%,rgba(7,22,36,0) 34%)}
+.cta{margin-top:36px;max-width:440px}
+.cover h1{font-size:120px}
+.d-body{padding:96px 40px 32px}
+.details h2{font-size:76px}
+}
+</style>
+</head>
+<body>
+
+<main id="cover" class="cover">
+  <div class="cover-photo"><img src="./storefront.jpg" alt="ACE SIGN storefront at dusk"><div class="cover-fade"></div></div>
+  <div class="copy">
+    <img src="./ACE%20Sign%20Logo.png" alt="ACE SIGN" class="logo">
+    <span class="rule" aria-hidden="true"></span>
+    <h1>How did<br><em>we do?</em></h1>
+    <p>Your feedback helps us keep delivering high-quality signage and service.</p>
+  </div>
+  <div class="cta">
+    <button type="button" class="btn" id="startReview">Start review
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+    <div class="tagline">Your space. Your signature.</div>
+  </div>
+</main>
+
+<form id="details" class="details hidden" novalidate>
+  <header class="d-head">
+    <div class="d-inner d-row">
+      <div class="brand"><img src="./ACE%20Sign%20Logo.png" alt="ACE SIGN" class="logo"><span class="wordmark">ACE SIGN</span></div>
+    </div>
+  </header>
+  <div class="d-body">
+    <div class="d-inner d-form">
+      <div class="intro">
+        <span class="tag">Optional</span>
+        <h2>Who are<br><em>you with?</em></h2>
+        <p>Let us know your company so we can match your review to your project. You can leave this blank.</p>
+      </div>
+      <div class="field">
+        <label for="company" class="label">Company name</label>
+        <input id="company" class="input" placeholder="Company name" autocomplete="organization" enterkeyhint="go">
+      </div>
+      <p class="note">Next, Google Reviews opens — choose your stars, write your review and post it yourself.</p>
+    </div>
+  </div>
+  <div class="d-bar">
+    <div class="d-inner">
+      <button type="button" class="back" id="backBtn" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+      <button type="submit" class="btn" id="goGoogle">Continue to Google
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></button>
+    </div>
+  </div>
+</form>
+
+<script>
+const GOOGLE_REVIEWS_URL="https://search.google.com/local/writereview?placeid=ChIJG9qJjvZh1moRA3-plcuZOQ0";
+const REVIEW_TRACKING_API="https://ace-sign-review-api.hannahkuo-2010607.workers.dev/";
+const $=id=>document.getElementById(id);
+const isPhone=()=>window.matchMedia("(max-width:560px)").matches;
+
+/* Two views on one page. #details in the URL lets the phone's Back button return to the cover. */
+function show(){
+  const details=location.hash==="#details";
+  $("cover").classList.toggle("hidden",details);
+  $("details").classList.toggle("hidden",!details);
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",show);
+$("startReview").addEventListener("click",()=>{location.hash="details"});
+$("backBtn").addEventListener("click",()=>history.back());
+$("company").addEventListener("input",e=>e.target.classList.toggle("filled",!!e.target.value.trim()));
+
+/* One tracking record per customer, sent as they leave for Google. Same payload shape as before. */
+function track(){
+  const company=$("company").value.trim();
+  const payload={
+    recordId:window.crypto&&crypto.randomUUID?crypto.randomUUID():"review-"+Date.now()+"-"+Math.random().toString(36).slice(2,10),
+    event:"start_review",
+    project:company,
+    company:company,
+    installer:"",
+    topics:[],
+    experience:"",
+    draft:""
+  };
+  try{
+    fetch(REVIEW_TRACKING_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),keepalive:true})
+      .then(r=>{if(!r.ok)console.error("Review tracking failed:",r.status)})
+      .catch(err=>console.error("Review tracking request failed:",err));
+  }catch(err){console.error("Review tracking request failed:",err)}
+}
+$("details").addEventListener("submit",e=>{
+  e.preventDefault();
+  track();
+  if(isPhone()){
+    window.location.assign(GOOGLE_REVIEWS_URL);
+  }else{
+    window.open(GOOGLE_REVIEWS_URL,"_blank","noopener");
+  }
+});
+show();
+</script>
+</body>
+</html>

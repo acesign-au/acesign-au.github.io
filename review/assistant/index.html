@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071624">
+<title>ACE SIGN Review Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#0A1B29;--deep:#061420;--cover:#071624;--panel:#12293B;--line:#22394B;--line2:#35505F;--muted:#9FB1C1;--soft:#C8D3DC;--text:#DCE5EC;--orange:#F5662C;--display:Archivo,Inter,"Arial Narrow",sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:#fff}
+body{font:16px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed}
+a{color:var(--orange)}
+input::placeholder,textarea::placeholder{color:#7F93A5}
+input:focus,textarea:focus{outline:3px solid rgba(245,102,44,.45);outline-offset:0}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.hidden{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.display{font-family:var(--display);font-stretch:66%;font-weight:900;line-height:.92;text-transform:uppercase;letter-spacing:-.5px;margin:0}
+.display em{font-style:normal;color:var(--orange)}
+.label{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.logo{display:block;object-fit:contain;background:#fff;border-radius:6px}
+.wordmark{font-family:var(--display);font-stretch:110%;font-weight:900;letter-spacing:2px}
+
+/* Cover */
+.cover{position:relative;min-height:100vh;min-height:100dvh;overflow:hidden;background:var(--cover);display:flex;flex-direction:column;padding:28px 24px calc(24px + env(safe-area-inset-bottom))}
+.cover-photo{position:absolute;left:0;right:0;bottom:0;height:56%}
+.cover-photo img{width:100%;height:100%;object-fit:cover;object-position:60% 40%;display:block}
+.cover-fade{position:absolute;inset:0;background:linear-gradient(180deg,var(--cover) 0%,rgba(7,22,36,.1) 30%,rgba(7,22,36,.25) 62%,var(--cover) 96%)}
+.cover-copy{position:relative;display:flex;flex-direction:column;gap:22px;max-width:520px}
+.cover-copy .logo{width:64px;height:64px;padding:5px}
+.rule{width:64px;height:4px;background:var(--orange)}
+.cover-h{font-size:76px;line-height:.88}
+.cover-copy p{margin:0;font-size:17px;line-height:1.45;color:var(--text);max-width:340px}
+.cover-cta{position:relative;margin-top:auto;display:flex;flex-direction:column;gap:18px}
+.tagline{display:flex;align-items:center;justify-content:center;gap:12px;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;white-space:nowrap;color:var(--text)}
+.tagline:before{content:"";width:36px;height:3px;background:var(--orange)}
+
+/* Buttons */
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:60px;padding:14px 16px;border-radius:4px;text-decoration:none;font-family:var(--display);font-stretch:85%;font-weight:900;font-size:19px;letter-spacing:1.5px;text-transform:uppercase}
+.btn-primary{flex:1 1 auto;border:0;background:var(--orange);color:var(--bg)}
+.btn-primary:disabled{background:var(--line);color:var(--muted)}
+.btn-ghost{border:1.5px solid var(--line2);background:transparent;color:#fff;font-weight:800;font-size:16px}
+.btn-back{width:60px;height:60px;flex:0 0 auto;border:1.5px solid var(--line2);border-radius:4px;background:transparent;color:#fff;display:grid;place-items:center}
+.btn-small{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border:1.5px solid var(--line2);border-radius:4px;background:transparent;color:#fff;font-weight:600;font-size:14px}
+.link-btn{min-height:44px;padding:10px 4px;border:0;background:transparent;color:var(--muted);font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+
+/* App shell */
+.shell{min-height:100vh;min-height:100dvh;background:var(--bg)}
+.aside{display:none}
+.col{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;min-width:0}
+.mhead{padding:18px 20px 0}
+.inner{max-width:640px;margin:0 auto;width:100%}
+.mhead-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .logo{width:40px;height:40px;padding:3px}
+.brand .wordmark{font-size:14px}
+.step-tag{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:18px;letter-spacing:2px;color:var(--muted)}
+.step-tag b{color:var(--orange);font-weight:800}
+.segs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.segs span{height:6px;background:var(--line)}
+.segs span.on{background:var(--orange)}
+.content{flex:1 1 auto;padding:30px 20px 28px}
+.step{display:flex;flex-direction:column;gap:26px}
+.intro{display:flex;flex-direction:column;gap:12px}
+.intro p{margin:0;font-size:15px;color:var(--muted)}
+.hero{font-size:52px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field-input{width:100%;min-height:60px;border:0;border-bottom:3px solid var(--line2);border-radius:0;background:var(--panel);color:#fff;font-size:18px;padding:14px 16px}
+.field-input.big{font-size:20px;font-weight:600}
+.field-input.filled{border-bottom-color:var(--orange)}
+textarea.field-input{min-height:200px;resize:vertical;font-size:17px;line-height:1.5;border-bottom-color:var(--orange)}
+.req{color:var(--orange)}
+.count-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.counter{display:flex;flex-direction:column;align-items:flex-end;line-height:1}
+.counter b{font-family:var(--display);font-stretch:70%;font-weight:900;font-size:48px;color:var(--line2)}
+.counter b.on{color:var(--orange)}
+.counter span{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.sub-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sub-row p{margin:0;font-size:15px;color:var(--muted)}
+.group{display:flex;flex-direction:column;gap:10px}
+.group h3{margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:7px;min-height:46px;padding:10px 14px;border-radius:4px;border:1.5px solid var(--line);background:var(--panel);color:#fff;font-weight:600;font-size:14px;line-height:1.2}
+.chip svg{display:none}
+.chip[aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:var(--bg)}
+.chip[aria-pressed="true"] svg{display:block}
+.tag-optional{align-self:flex-start;font-family:var(--display);font-stretch:85%;font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border:1.5px solid var(--line2);color:var(--soft)}
+.hint-right{font-size:13px;color:var(--muted);text-align:right}
+.parts{display:flex;flex-direction:column;gap:10px}
+.part{border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.part-solid{background:var(--panel)}
+.part-dashed{border:1.5px dashed var(--orange)}
+.part-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.part-title{font-family:var(--display);font-stretch:80%;font-weight:800;font-size:14px;letter-spacing:2px;text-transform:uppercase;color:#fff}
+.part-title.orange{color:var(--orange)}
+.part-note{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.part p{margin:0;font-size:15px;line-height:1.55}
+.part textarea{width:100%;resize:vertical;border:1px solid #2A4458;border-radius:2px;padding:12px 14px;background:var(--bg);color:#fff;font-size:16px;line-height:1.55}
+.toggle{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 14px 8px 10px;border:1.5px solid var(--line2);border-radius:4px;background:transparent;color:#fff;font-weight:600;font-size:14px}
+.toggle .box{width:20px;height:20px;border:2px solid currentColor;border-radius:2px;display:grid;place-items:center}
+.toggle .box svg{display:none}
+.toggle[aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:var(--bg)}
+.toggle[aria-pressed="true"] .box svg{display:block}
+.muted-note{margin:0;font-size:13px;color:var(--muted)}
+.meta-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.meta-row>span{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.done-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.done-list li{display:flex;align-items:center;gap:16px;padding:14px 16px;background:var(--panel);border-radius:4px;font-size:16px;font-weight:500}
+.done-list b{font-family:var(--display);font-stretch:70%;font-weight:900;font-size:30px;line-height:1;color:var(--orange);width:36px}
+.stack{display:flex;flex-direction:column;gap:8px}
+details{background:var(--panel);border-radius:4px;padding:4px 16px}
+summary{min-height:48px;display:flex;align-items:center;font-weight:600;font-size:14px;color:var(--soft);cursor:pointer}
+details p{margin:0 0 14px;font-size:15px;white-space:pre-wrap}
+.bar{position:sticky;bottom:0;background:rgba(10,27,41,.96);border-top:1px solid var(--line);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:14px 20px calc(16px + env(safe-area-inset-bottom))}
+.bar .inner{display:flex;flex-direction:column;gap:10px}
+.bar-msg{margin:0;font-size:13px;color:var(--muted);text-align:center}
+.bar-row{display:flex;gap:8px}
+.footer-note{margin:0;font-size:13px;color:var(--muted)}
+
+/* Desktop stepper */
+.aside .logo{width:52px;height:52px;padding:4px}
+.aside h1{font-size:64px;line-height:.9}
+.steplist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.steplist li{display:flex;gap:16px;align-items:center;padding:12px 14px;border-radius:4px}
+.steplist li.cur{background:var(--panel)}
+.steplist .n{font-family:var(--display);font-stretch:70%;font-weight:900;font-size:34px;line-height:1;width:44px;color:var(--line2)}
+.steplist li.on .n{color:var(--orange)}
+.steplist .t{font-family:var(--display);font-stretch:85%;font-weight:800;font-size:15px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.steplist li.on .t{color:#fff}
+.steplist .s{display:block;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+
+@media (min-width:600px){
+.mhead{padding:22px 40px 0}
+.content{padding:44px 40px 32px}
+.bar{padding:16px 40px 22px}
+.hero{font-size:64px}
+}
+@media (min-width:960px){
+.cover{justify-content:center;padding:72px 80px}
+.cover-photo{left:auto;top:0;height:100%;width:56%}
+.cover-fade{background:linear-gradient(90deg,var(--cover) 0%,rgba(7,22,36,.55) 14%,rgba(7,22,36,0) 34%)}
+.cover-cta{margin-top:36px;max-width:440px}
+.cover-h{font-size:120px}
+.shell{display:grid;grid-template-columns:minmax(380px,440px) minmax(0,1fr)}
+.aside{display:flex;flex-direction:column;gap:40px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--deep);border-right:1px solid #1B3244;padding:44px 40px 36px}
+.mhead{display:none}
+.content{padding:72px 72px 32px}
+.bar{padding:20px 72px 30px}
+.hero{font-size:76px}
+}
+</style>
+</head>
+<body>
+
+<!-- Cover -->
+<section id="cover" class="cover" aria-labelledby="coverTitle">
+  <div class="cover-photo"><img src="../storefront.jpg" alt="ACE SIGN storefront at dusk"><div class="cover-fade"></div></div>
+  <div class="cover-copy">
+    <img src="../ACE%20Sign%20Logo.png" alt="ACE SIGN" class="logo">
+    <span class="rule" aria-hidden="true"></span>
+    <h1 id="coverTitle" class="display cover-h">How did<br><em>we do?</em></h1>
+    <p>Your feedback helps us keep delivering high-quality signage and service.</p>
+  </div>
+  <div class="cover-cta">
+    <button type="button" class="btn btn-primary" id="startBtn" style="width:100%;min-height:62px;font-size:20px;letter-spacing:2px">Start review
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+    <div class="tagline">Your space. Your signature.</div>
+  </div>
+</section>
+
+<!-- Flow -->
+<div id="app" class="shell hidden">
+  <aside class="aside">
+    <div class="brand"><img src="../ACE%20Sign%20Logo.png" alt="ACE SIGN" class="logo"><div style="display:flex;flex-direction:column;line-height:1.2"><span class="wordmark" style="font-size:17px">ACE SIGN</span><span class="label">Review assistant</span></div></div>
+    <h1 class="display">Share your<br>ACE SIGN<br><em>experience</em></h1>
+    <ol class="steplist" id="stepList"></ol>
+    <p class="footer-note" style="margin-top:auto;max-width:340px">Please submit only an honest review based on your own experience.</p>
+  </aside>
+
+  <div class="col">
+    <header class="mhead">
+      <div class="inner">
+        <div class="mhead-row">
+          <div class="brand"><img src="../ACE%20Sign%20Logo.png" alt="ACE SIGN" class="logo"><span class="wordmark">ACE SIGN</span></div>
+          <span class="step-tag" id="stepTag"></span>
+        </div>
+        <div class="segs" id="segs" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="inner">
+
+        <section id="s1" class="step">
+          <div class="intro">
+            <h2 class="display hero">Which project<br><em>did we do?</em></h2>
+            <p>Type the project or store name your feedback relates to.</p>
+          </div>
+          <div class="field">
+            <label for="project" class="label">Project name <span class="req">*</span></label>
+            <input id="project" class="field-input big" placeholder="e.g. UGG Chadstone" autocomplete="off" enterkeyhint="next">
+          </div>
+          <div class="field">
+            <label for="installer" class="label">Installer · optional</label>
+            <input id="installer" class="field-input" placeholder="Name, if known" autocomplete="off" enterkeyhint="done">
+          </div>
+        </section>
+
+        <section id="s2" class="step hidden">
+          <div class="count-row">
+            <h2 class="display hero">What went<br><em>well?</em></h2>
+            <div class="counter" aria-live="polite"><b id="countNum">00</b><span>selected</span></div>
+          </div>
+          <div class="sub-row">
+            <p>Tap everything that matches your experience — as many as you like.</p>
+            <button type="button" class="btn-small hidden" id="clearBtn" style="font-family:var(--display);font-stretch:85%;font-weight:800;font-size:13px;letter-spacing:1.5px;text-transform:uppercase">Clear</button>
+          </div>
+          <div id="topics" class="step" style="gap:24px"></div>
+        </section>
+
+        <section id="s3" class="step hidden">
+          <div class="intro">
+            <span class="tag-optional">Optional</span>
+            <h2 class="display hero">In your<br><em>own words</em></h2>
+            <p>A sentence or two makes the review personal. We keep what you write exactly as it is — or skip this step.</p>
+          </div>
+          <div class="field">
+            <label for="experience" class="label">Your words</label>
+            <textarea id="experience" class="field-input" placeholder="For example: The team communicated clearly and completed the installation on schedule."></textarea>
+            <span class="hint-right" id="wordCount" aria-live="polite">Optional — you can skip this</span>
+          </div>
+        </section>
+
+        <section id="s4" class="step hidden" style="gap:20px">
+          <div class="intro">
+            <h2 class="display hero">Your<br><em>review</em></h2>
+            <p>Posted to Google in this order. Your words stay exactly as you wrote them.</p>
+          </div>
+          <div class="parts">
+            <div class="part part-solid">
+              <span class="part-title orange">01 · Topics</span>
+              <p id="tagLine"></p>
+            </div>
+            <div class="part part-solid">
+              <div class="part-head"><label for="own" class="part-title">02 · Your words</label><span class="part-note">Kept exactly as written</span></div>
+              <textarea id="own" rows="4" placeholder="Optional — add a sentence about your experience."></textarea>
+            </div>
+            <div class="part part-dashed">
+              <div class="part-head"><label for="summary" class="part-title orange">03 · Summary</label><span class="part-note">Auto · from your topics</span></div>
+              <button type="button" class="toggle" id="sumToggle" aria-pressed="false"><span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="square" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span id="sumLabel"></span></button>
+              <p class="muted-note hidden" id="sumHint">Your own words are used instead. Add this only if you want an extra summary.</p>
+              <textarea id="summary" rows="5" style="color:var(--text)"></textarea>
+              <button type="button" class="link-btn hidden" id="resetSum" style="align-self:flex-start;color:var(--orange);font-size:13px">Reset to original wording</button>
+            </div>
+          </div>
+          <div class="meta-row">
+            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>You choose your rating on Google</span>
+            <button type="button" class="btn-small" id="copyBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span id="copyLabel">Copy text</span></button>
+          </div>
+          <p class="muted-note">The summary is built from the topics you tapped, not by an AI service. Please submit only an honest review based on your own experience — after Google opens, paste your text, choose your rating and submit it yourself.</p>
+        </section>
+
+        <section id="s5" class="step hidden">
+          <div class="intro">
+            <h2 class="display hero" id="doneTitle">Copied.<br><em>Now post it.</em></h2>
+            <p id="doneHint">Google Reviews opened in a new tab. Three taps and you’re done:</p>
+          </div>
+          <ol class="done-list">
+            <li><b>01</b>Paste your text into the review box</li>
+            <li><b>02</b>Choose your star rating</li>
+            <li><b>03</b>Tap Post to submit it yourself</li>
+          </ol>
+          <div class="stack">
+            <a class="btn btn-primary" id="openGoogle" target="_blank" rel="noopener">Open Google Reviews
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+            <button type="button" class="btn btn-ghost" id="copyAgain">Copy text again</button>
+          </div>
+          <details><summary>Show my review text</summary><p id="finalPreview"></p></details>
+          <button type="button" class="link-btn" id="restartBtn" style="align-self:center">Start a new review</button>
+        </section>
+
+      </div>
+    </main>
+
+    <div class="bar" id="bar">
+      <div class="inner">
+        <p class="bar-msg hidden" id="barMsg" aria-live="polite"></p>
+        <div class="bar-row">
+          <button type="button" class="btn-back" id="backBtn" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+          <button type="button" class="btn btn-primary" id="nextBtn"><span id="nextLabel">Continue</span><svg id="nextIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const GOOGLE_REVIEWS_URL="https://search.google.com/local/writereview?placeid=ChIJG9qJjvZh1moRA3-plcuZOQ0";
+const REVIEW_TRACKING_API="https://ace-sign-review-api.hannahkuo-2010607.workers.dev/";
+
+const groups={
+"Service & Communication":["Communication & Service","Response Time","Understanding Requirements","Problem Solving"],
+"Signage & Design":["Signage Quality","Design & Appearance","Branding & Colours","Materials & Finish"],
+"Project & Installation":["Installation & Workmanship","Site Measurements","Site Professionalism","Site Cleanliness","Project Timing","Project Coordination"],
+"Scope & Support":["Changes & Flexibility","Quote & Scope","Value for Money","After-sales Support"]};
+const PHRASES={
+"Communication & Service":"clear communication and great service",
+"Response Time":"fast response times",
+"Understanding Requirements":"how well they understood our requirements",
+"Problem Solving":"their practical problem solving",
+"Signage Quality":"the quality of the signage",
+"Design & Appearance":"the overall design and look",
+"Branding & Colours":"how accurately they matched our branding and colours",
+"Materials & Finish":"the materials and finish",
+"Installation & Workmanship":"the installation and workmanship",
+"Site Measurements":"accurate site measurements",
+"Site Professionalism":"the professionalism of the team on site",
+"Site Cleanliness":"how tidy they left the site",
+"Project Timing":"on-time delivery",
+"Project Coordination":"smooth project coordination",
+"Changes & Flexibility":"their flexibility with changes",
+"Quote & Scope":"a clear quote and scope",
+"Value for Money":"good value for money",
+"After-sales Support":"helpful after-sales support"};
+const OPENERS=["We really appreciated ","We were also impressed by ","Other highlights included ","On top of that, we valued ","We’d also mention "];
+const LABELS=["Project","Topics","Your words","Review"];
+const CHECK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+const $=id=>document.getElementById(id);
+const state={step:0,selected:[],summary:"",generated:"",sumPref:null,copied:""};
+const pad=n=>(n<10?"0":"")+n;
+const words=s=>{s=(s||"").trim();return s?s.split(/\s+/).length:0};
+const project=()=>$("project").value.trim();
+const experience=()=>$("experience").value.trim();
+const joinList=a=>a.length<=1?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1];
+
+function makeSummary(){
+  const out=[];const p=project();
+  if(p)out.push("We worked with ACE SIGN on the "+p+" project.");
+  const ph=state.selected.map(t=>PHRASES[t]||t.toLowerCase());
+  for(let i=0,c=0;i<ph.length;i+=3,c++)out.push(OPENERS[Math.min(c,OPENERS.length-1)]+joinList(ph.slice(i,i+3))+".");
+  return out.join(" ");
+}
+function sumOn(){return state.sumPref===null?!experience():state.sumPref}
+function finalText(){
+  const tags=state.selected.join(" | ");
+  const own=experience();
+  const sum=sumOn()?$("summary").value.trim():"";
+  return [tags,own,sum].filter(Boolean).join("\n\n");
+}
+
+/* Topics */
+const topicRoot=$("topics");
+Object.entries(groups).forEach(([group,items])=>{
+  const wrap=document.createElement("div");wrap.className="group";wrap.setAttribute("role","group");wrap.setAttribute("aria-label",group);
+  const h=document.createElement("h3");h.className="label";h.textContent=group;wrap.appendChild(h);
+  const chips=document.createElement("div");chips.className="chips";
+  items.forEach(item=>{
+    const b=document.createElement("button");b.type="button";b.className="chip";b.setAttribute("aria-pressed","false");
+    b.innerHTML=CHECK;const s=document.createElement("span");s.textContent=item;b.appendChild(s);
+    b.addEventListener("click",()=>{
+      const i=state.selected.indexOf(item);
+      if(i===-1)state.selected.push(item);else state.selected.splice(i,1);
+      b.setAttribute("aria-pressed",i===-1?"true":"false");
+      render();
+    });
+    chips.appendChild(b);
+  });
+  wrap.appendChild(chips);topicRoot.appendChild(wrap);
+});
+
+/* Render */
+function blockMsg(){
+  if(state.step===1&&!project())return "Type the project name to continue";
+  if(state.step===2&&!state.selected.length)return "Tap at least one topic to continue";
+  if(state.step===4&&!finalText())return "Add some text to your review first";
+  return "";
+}
+function render(){
+  const st=state.step;
+  $("cover").classList.toggle("hidden",st!==0);
+  $("app").classList.toggle("hidden",st===0);
+  for(let i=1;i<=5;i++)$("s"+i).classList.toggle("hidden",i!==st);
+  $("bar").classList.toggle("hidden",st===0||st===5);
+
+  $("stepTag").innerHTML=st>=5?"DONE":"STEP <b>"+pad(st)+"</b>/04";
+  [...$("segs").children].forEach((el,i)=>el.classList.toggle("on",i<st));
+
+  const wc=words($("experience").value);
+  const sums=[project()||"Not entered yet",state.selected.length?state.selected.length+" selected":"Tap what went well",wc?wc+" words":"Optional",st>=5?"Copied — post on Google":"Edit, copy, post"];
+  $("stepList").innerHTML="";
+  LABELS.forEach((l,i)=>{
+    const li=document.createElement("li");const n=i+1;
+    if(n<=st)li.classList.add("on");if(n===st)li.classList.add("cur");
+    li.innerHTML='<span class="n">'+pad(n)+'</span><span><span class="t"></span><span class="s"></span></span>';
+    li.querySelector(".t").textContent=l;li.querySelector(".s").textContent=sums[i];
+    $("stepList").appendChild(li);
+  });
+
+  $("project").classList.toggle("filled",!!project());
+  const n=state.selected.length;
+  $("countNum").textContent=pad(n);$("countNum").classList.toggle("on",n>0);
+  $("clearBtn").classList.toggle("hidden",!n);
+  $("wordCount").textContent=wc?wc+(wc===1?" word":" words"):"Optional — you can skip this";
+
+  if(st===4){
+    $("tagLine").textContent=state.selected.join(" | ");
+    const on=sumOn();
+    $("sumToggle").setAttribute("aria-pressed",on?"true":"false");
+    $("sumLabel").textContent=on?"Included in review":"Not included — tap to add";
+    $("sumHint").classList.toggle("hidden",on||!experience());
+    $("resetSum").classList.toggle("hidden",$("summary").value===state.generated);
+  }
+
+  const msg=blockMsg();
+  $("barMsg").textContent=msg;$("barMsg").classList.toggle("hidden",!msg);
+  $("nextBtn").disabled=!!msg;
+  $("backBtn").classList.toggle("hidden",st<1);
+  if(st===3)$("nextLabel").textContent=wc?"Create draft":"Skip & create draft";
+  else if(st===4)$("nextLabel").textContent="Copy & open Google";
+  else $("nextLabel").textContent="Continue";
+  $("nextIcon").innerHTML=st===4?'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>':'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>';
+
+  if(st===5){
+    const fail=state.copied==="fail";
+    $("doneTitle").innerHTML=fail?"Almost<br><em>there</em>":"Copied.<br><em>Now post it.</em>";
+    $("doneHint").textContent=fail?"We couldn’t copy automatically. Tap “Copy text again”, or open your text below and copy it.":"Google Reviews opened in a new tab. Three taps and you’re done:";
+    $("finalPreview").textContent=finalText();
+  }
+}
+function go(n){
+  state.step=n;
+  if(n===4){$("own").value=$("experience").value}
+  render();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* Copy */
+function fallbackCopy(text){
+  const ta=document.createElement("textarea");ta.value=text;ta.setAttribute("readonly","");
+  ta.style.position="fixed";ta.style.top="0";ta.style.opacity="0";document.body.appendChild(ta);
+  ta.select();ta.setSelectionRange(0,text.length);let ok=false;
+  try{ok=document.execCommand("copy")}catch(e){}
+  ta.remove();return ok;
+}
+function copyText(text){
+  try{
+    if(navigator.clipboard&&window.isSecureContext){
+      return navigator.clipboard.writeText(text).then(()=>true,()=>fallbackCopy(text));
+    }
+  }catch(e){}
+  return Promise.resolve(fallbackCopy(text));
+}
+function setCopied(ok){state.copied=ok?"ok":"fail";$("copyLabel").textContent=ok?"Copied":"Copy text";render()}
+
+/* Tracking (unchanged API) */
+function track(text){
+  const payload={
+    recordId:window.crypto&&crypto.randomUUID?crypto.randomUUID():"review-"+Date.now()+"-"+Math.random().toString(36).slice(2,10),
+    project:project(),
+    installer:$("installer").value.trim(),
+    topics:[...state.selected],
+    experience:experience(),
+    draft:text
+  };
+  try{
+    fetch(REVIEW_TRACKING_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),keepalive:true})
+      .then(r=>{if(!r.ok)console.error("Review tracking failed:",r.status);else console.log("Review click tracking request accepted.")})
+      .catch(err=>console.error("Review tracking request failed:",err));
+  }catch(err){console.error("Review tracking request failed:",err)}
+}
+function copyOpen(){
+  const text=finalText();
+  copyText(text).then(setCopied);
+  track(text);
+  state.step=5;render();
+  if(window.matchMedia("(max-width:560px)").matches){
+    window.location.assign(GOOGLE_REVIEWS_URL);
+  }else{
+    window.open(GOOGLE_REVIEWS_URL,"_blank","noopener");
+  }
+}
+
+/* Events */
+$("openGoogle").href=GOOGLE_REVIEWS_URL;
+$("startBtn").addEventListener("click",()=>go(1));
+$("backBtn").addEventListener("click",()=>go(Math.max(0,state.step-1)));
+$("nextBtn").addEventListener("click",()=>{
+  if(blockMsg())return;
+  if(state.step===3){state.generated=makeSummary();$("summary").value=state.generated;state.copied="";$("copyLabel").textContent="Copy text"}
+  if(state.step===4){copyOpen();return}
+  go(state.step+1);
+});
+["project","installer"].forEach(id=>$(id).addEventListener("input",render));
+$("project").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("installer").focus()}});
+$("experience").addEventListener("input",render);
+$("own").addEventListener("input",()=>{$("experience").value=$("own").value;render()});
+$("summary").addEventListener("input",render);
+$("clearBtn").addEventListener("click",()=>{state.selected=[];document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed","false"));render()});
+$("sumToggle").addEventListener("click",()=>{state.sumPref=!sumOn();render()});
+$("resetSum").addEventListener("click",()=>{$("summary").value=state.generated;render()});
+$("copyBtn").addEventListener("click",()=>copyText(finalText()).then(setCopied));
+$("copyAgain").addEventListener("click",()=>copyText(finalText()).then(setCopied));
+$("restartBtn").addEventListener("click",()=>{
+  state.selected=[];state.sumPref=null;state.copied="";state.generated="";
+  ["project","installer","experience","own","summary"].forEach(id=>$(id).value="");
+  document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed","false"));
+  $("copyLabel").textContent="Copy text";go(0);
+});
+render();
+</script>
+</body>
+</html>
